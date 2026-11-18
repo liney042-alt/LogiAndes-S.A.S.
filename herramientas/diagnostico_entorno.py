@@ -1,4 +1,5 @@
-"""Diagnostica y muestra las condiciones del equipo en formato JSON."""
+#Diagnostica y muestra las condiciones del equipo en formato JSON.#
+
 import json
 
 from herramientas.labmedicion import describir_entorno

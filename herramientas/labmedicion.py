@@ -1,36 +1,6 @@
-"""
-labmedicion.py — Arnés de medición reproducible para el laboratorio.
 
-Física Aplicada al Desarrollo de Software · SENA ADSO · Clase 4
-
-Mide UNA ejecución de una función y devuelve un registro con:
-
-  tiempo_s          Tiempo de pared medido con time.perf_counter()  [s]
-  cpu_proceso_s     Tiempo de CPU del proceso (usuario+sistema)      [s]
-  uso_cpu_pct       cpu_proceso_s / tiempo_s * 100                   [%]
-                    (puede superar 100 % si se usan varios núcleos)
-  pico_mem_mib      Pico de memoria Python según tracemalloc         [MiB]
-  rss_mib           Memoria residente del proceso al final (psutil)  [MiB]
-  frecuencia_mhz    Frecuencia de CPU al terminar (opcional)         [MHz]
-  temperatura_c     Temperatura de CPU al terminar (opcional)        [°C]
-  energia_j         Energía RAPL del paquete durante la ejecución    [J]
-  potencia_w        energia_j / tiempo_s (solo si hay RAPL)          [W]
-
-Limitaciones que DEBEN conocerse (y reportarse en el informe):
-  * tracemalloc solo ve la memoria reservada por el intérprete de Python.
-    No ve memoria de extensiones nativas (por ejemplo NumPy), buffers del
-    sistema operativo, ni memoria de procesos hijos (multiprocessing).
-    Además añade sobrecosto: por eso se mide el tiempo en una corrida y la
-    memoria en otra (parámetro medir_memoria).
-  * uso_cpu_pct NO es potencia eléctrica.
-  * Sin RAPL no se reporta energía: no se debe "inventar" multiplicando
-    un porcentaje de CPU por una potencia nominal y presentarlo como medido.
-
-Uso típico:
-    from labmedicion import Experimento
-    exp = Experimento("resultados.csv", equipo="Equipo 4")
-    exp.medir(funcion, n=100_000, estrategia="bloques", repeticion=1)
-"""
+#labmedicion.py — Arnés de medición reproducible para el laboratorio.#
+#Mide UNA ejecución de una función y devuelve un registro#
 from __future__ import annotations
 
 import csv
