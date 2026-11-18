@@ -1,10 +1,13 @@
 # Análisis de resultados — Liney
 
-## Datos de entrada
-`resultados/consolidado.csv` reúne dos series formales, cada una con diez repeticiones de tiempo por estrategia/tamaño. `resultados/resumen.csv` contiene media, desviación estándar, CV e IC95 %. Las corridas de memoria son separadas y hay dos por combinación.
+## Datos analizados
+La corrida formal de entrega está en `resultados/medicion_formal_local.csv`: diez mediciones de tiempo por estrategia y tamaño, además de corridas separadas de memoria. `resultados/resumen.csv` contiene media, desviación estándar, CV e IC95 %. Los archivos `resultados/resultados.csv`, `resultados/repeticion_2.csv` y `resultados/consolidado.csv` conservan series anteriores; no se mezclan con las cifras de esta corrida.
 
 ## Hallazgo principal
-Para un millón de registros, A promedió 3.9367 s, B 3.0288 s y C 1.2860 s. C redujo el tiempo estimado 67.3 % respecto de A y 57.5 % respecto de B. La lectura en flujo evitó retener el millón de diccionarios: `tracemalloc` registró 529.310 MiB para A y menos de 0.2 MiB para B/C, con solo dos lecturas de memoria por método.
+Para un millón de registros, A promedió 3.4624 s, B 2.4070 s y C 1.0400 s. C redujo el tiempo estimado 70.0 % respecto de A y 56.8 % respecto de B. En mediciones separadas, `tracemalloc` registró 529.310 MiB para A, 0.182 MiB para B y 0.176 MiB para C.
+
+## Figuras
+`resultados/tiempo_vs_n.png` muestra el tiempo frente a n con barras de error. `resultados/estrategias_n_mayor.png` compara las estrategias para n = 1 000 000.
 
 ## Criterio y límites
-Los promedios cumplen las predicciones cuantitativas H1–H3 a n = 1 000 000. Sin embargo, el CV consolidado supera 10 % en todas las combinaciones. Las dos series también varían entre sí; tratar los IC95 % como descriptivos y no como garantía de repetibilidad. No hay energía RAPL válida y no se generaron gráficos porque falta matplotlib. La propuesta de C es provisional y se limita al escenario principalmente de caché caliente.
+Las estimaciones puntuales cumplen H1–H3 a n = 1 000 000. El CV de tiempo está entre 11.5 % y 23.7 %, por encima del umbral de 10 %; se reporta como limitación. No hubo energía RAPL válida. La medición describe principalmente caché caliente y no es memoria total del proceso.
