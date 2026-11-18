@@ -16,18 +16,17 @@ A materializa una lista de diccionarios y vuelve a recorrerla por región; B sum
 
 ## 4. Resultados
 Las estadísticas consolidadas están en `resultados/resumen.csv`; las mediciones originales se conservan en `resultados/resultados.csv` y `resultados/repeticion_2.csv`.
-
 | n | Estrategia | Media (s) | SD (s) | CV (%) | IC95 % (s) |
 |---:|---|---:|---:|---:|---:|
-| 100 000 | A | 0.3314 | 0.0634 | 19.1 | [0.3016, 0.3612] |
-| 100 000 | B | 0.3121 | 0.0427 | 13.7 | [0.2920, 0.3321] |
-| 100 000 | C | 0.1285 | 0.0241 | 18.8 | [0.1172, 0.1399] |
-| 300 000 | A | 1.0865 | 0.2382 | 21.9 | [0.9746, 1.1984] |
-| 300 000 | B | 0.8606 | 0.1891 | 22.0 | [0.7718, 0.9495] |
-| 300 000 | C | 0.3982 | 0.0830 | 20.8 | [0.3593, 0.4372] |
-| 1 000 000 | A | 3.9367 | 0.7856 | 20.0 | [3.5676, 4.3058] |
-| 1 000 000 | B | 3.0288 | 0.6395 | 21.1 | [2.7283, 3.3292] |
-| 1 000 000 | C | 1.2860 | 0.2707 | 21.0 | [1.1589, 1.4132] |
+| 100 000 | A | 0.2627 | 0.0403 | 15.3 | [0.2333, 0.2921] |
+| 100 000 | B | 0.2577 | 0.0611 | 23.7 | [0.2132, 0.3023] |
+| 100 000 | C | 0.1102 | 0.0168 | 15.3 | [0.0979, 0.1225] |
+| 300 000 | A | 0.8503 | 0.1484 | 17.5 | [0.7421, 0.9586] |
+| 300 000 | B | 0.8020 | 0.1654 | 20.6 | [0.6814, 0.9227] |
+| 300 000 | C | 0.3511 | 0.0551 | 15.7 | [0.3110, 0.3913] |
+| 1 000 000 | A | 3.4624 | 0.4923 | 14.2 | [3.1034, 3.8214] |
+| 1 000 000 | B | 2.4070 | 0.5307 | 22.0 | [2.0200, 2.7940] |
+| 1 000 000 | C | 1.0400 | 0.1201 | 11.5 | [0.9524, 1.1276] |
 
 En la corrida separada de memoria para un millón de filas: A = 529.310 MiB, B = 0.182 MiB y C = 0.176 MiB (`tracemalloc`, dos mediciones por estrategia). No se obtuvieron valores válidos de energía RAPL. Los gráficos solicitados no se generaron porque matplotlib no está instalado; el resumen numérico y los CSV quedan disponibles para generarlos cuando se disponga de esa dependencia.
 
