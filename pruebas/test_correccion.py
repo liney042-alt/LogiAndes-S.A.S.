@@ -25,5 +25,13 @@ class TestCorreccion(unittest.TestCase):
                 self.assertTrue(all(round(total, 2) == total for total in modulo.ejecutar(ruta).values()))
 
 
+    def test_archivo_vacio_con_encabezados_devuelve_sin_regiones(self):
+        with tempfile.TemporaryDirectory() as carpeta:
+            ruta = Path(carpeta) / "vacio.csv"
+            ruta.write_text("id_venta,fecha,region,producto,cantidad,precio_unitario\n", encoding="utf-8")
+            for modulo in (linea_base, estrategia_b, estrategia_c):
+                self.assertEqual(modulo.ejecutar(ruta), {})
+
 if __name__ == "__main__":
     unittest.main()
+
