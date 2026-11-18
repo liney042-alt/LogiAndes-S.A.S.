@@ -9,23 +9,39 @@
 El cierre contable diario procesa un archivo de ventas de más de un millón de registros. El proceso tarda cada vez más y en temporada compite por CPU y memoria con otros servicios.
 
 ## 2. Situación inicial medible
-`src/linea_base.py` carga el CSV completo como lista de diccionarios y lo recorre una vez por región. Ejecute `python -m src.linea_base` y conserve la salida en `resultados/evidencia_linea_base.txt` como evidencia inicial.
+`src/linea_base.py` carga el CSV completo como lista de diccionarios y recorre la lista una vez por región. La ejecución inicial (`python -m src.linea_base`) produjo estos valores:
+
+| n | Tiempo de una corrida | Fecha | Equipo |
+|---:|---:|---|---|
+| 200 000 registros | 0.583 s | 2026-11-18 | Equipo 1; Windows 11 x64, Intel Family 6 Model 186, 10 núcleos físicos / 12 lógicos, CPython 3.14.0 |
+
+La salida de totales por región está guardada en [resultados/evidencia_linea_base.txt](resultados/evidencia_linea_base.txt). Para obtener el diagnóstico del equipo en una nueva sesión, ejecute `python -m herramientas.diagnostico_entorno`; el arnés formal también guarda el entorno en un JSON junto al CSV.
+
+### Magnitudes físicas que intervienen
+- El tiempo de pared `t` se mide en segundos (s); el tamaño de entrada `n`, en registros.
+- El trabajo computacional se aproxima por el número de operaciones/ciclos: `N ≈ f·t`, donde `f` es la frecuencia del procesador en hertz (Hz). Una pasada en vez de seis reduce operaciones y puede reducir tiempo y ciclos.
+- La lectura mueve datos de almacenamiento a RAM y CPU. Se puede describir su tasa como datos transferidos por tiempo (MB/s); la caché del sistema puede hacer que una lectura posterior no refleje el disco.
+- La memoria Python se registra en MiB. `tracemalloc` permite comparar objetos asignados por Python, pero no es la memoria total residente.
+- La energía cumple `E = P̄·t` y se expresa en joules (J), con potencia media `P̄` en watts (W). Solo se concluye ahorro de energía si hay lecturas RAPL válidas; el porcentaje de CPU no es potencia.
 
 ## 3. Pregunta de investigación
 ¿Cómo cambian el tiempo (s) y el pico de memoria Python (MiB) al variar la estrategia de procesamiento (A, B, C) y el tamaño de entrada (100 000, 300 000 y 1 000 000 filas), manteniendo equipo, datos y condiciones constantes?
 
 ## 4. Hipótesis
-Ver H1–H3 en [docs/hipotesis.md](docs/hipotesis.md). Son predicciones cuantitativas pendientes de prueba.
+Ver H1–H3 en [docs/hipotesis.md](docs/hipotesis.md). Son predicciones cuantitativas; los resultados medidos y sus límites están en la rama de Liney y en [docs/informe.md](docs/informe.md).
 
 ## 5. Estrategias
-| Id | Estrategia | Idea principal |
-|---|---|---|
-| A | Línea base | Lista de diccionarios y recorrido por región. |
-| B | Flujo `DictReader` | Una pasada, sin retener todas las filas. |
-| C | Flujo `csv.reader` | Una pasada, columnas por índice, sin diccionario por fila. |
+| Id | Estrategia | Idea principal | Efecto físico esperado |
+|---|---|---|---|
+| A | Línea base | Lista de diccionarios; recorre el archivo por región. | Más recorridos y objetos retenidos; se espera mayor tiempo (s) y pico de memoria (MiB). |
+| B | Flujo `DictReader` | Una pasada, acumulando mientras lee. | Menos operaciones que seis pasadas y menor retención en RAM; se espera bajar tiempo y memoria. |
+| C | Flujo `csv.reader` | Una pasada con índices, sin diccionario por fila. | Reduce creación de objetos/búsquedas; se espera menos trabajo por registro y menor tiempo/memoria que B. |
+
+A igual potencia media, una reducción de tiempo podría reducir `E = P̄·t`; la energía no se presume si el sensor no está disponible.
 
 ## 6. Cómo reproducir
 ```powershell
+python -m herramientas.diagnostico_entorno
 python -m src.linea_base
 python -m unittest discover -s pruebas
 python -m experimentos.ejecutar_experimento --rapido
@@ -42,6 +58,4 @@ La asignación nominal y las ramas por integrante están en [docs/ramas_equipo.m
 [Ramas del equipo](docs/ramas_equipo.md) · [Variables](docs/variables.md) · [Protocolo](docs/protocolo.md) · [Entorno](docs/entorno.md) · [Decisiones](docs/decisiones.md) · [Uso de IA](docs/uso_ia.md) · [Informe](docs/informe.md)
 
 ## 9. Resultados y conclusiones
-Pendientes de la ejecución formal. No completar con cifras estimadas; incluir resultados observados, unidades y sus intervalos de confianza.
-
-
+Los resultados de dos series están en `resultados/` de las ramas A/C. El CV combinado superó 10 % en todas las combinaciones; revisar el informe antes de extrapolar las cifras.
