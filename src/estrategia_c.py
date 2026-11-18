@@ -1,4 +1,4 @@
-"""Estrategia C: flujo con csv.reader y acceso por índice, sin dict por fila."""
+#Estrategia C: flujo con csv.reader y acceso por índice, sin dict por fila.#
 import csv
 from pathlib import Path
 

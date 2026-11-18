@@ -1,4 +1,5 @@
-"""Resume el CSV del experimento y genera gráficos si matplotlib está instalado."""
+# esto genera graficoc y resume el cvs del experiemto si matplotlib está instalado#
+
 import argparse
 import csv
 import math
