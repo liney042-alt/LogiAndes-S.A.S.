@@ -1,4 +1,4 @@
-"""Estrategia B: una sola pasada por el CSV con lectura en flujo."""
+#Estrategia B: una sola pasada por el CSV con lectura en flujo.#
 import csv
 from pathlib import Path
 
