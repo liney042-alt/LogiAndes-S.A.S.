@@ -1,0 +1,2 @@
+{'Amazonía': 43870352753.94, 'Andina': 43855287067.3, 'Caribe': 44081333261.96, 'Insular': 44253548206.81, 'Orinoquía': 43825076706.13, 'Pacífica': 44007309044.14}
+Tiempo: 0.583 s  (una corrida, solo verificación)
