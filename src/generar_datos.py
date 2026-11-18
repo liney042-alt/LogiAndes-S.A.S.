@@ -1,4 +1,4 @@
-"""Genera un CSV de ventas SIMULADAS reproducible (semilla fija). Uso: python -m src.generar_datos 1000000"""
+#Genera un CSV de ventas SIMULADAS reproducible (semilla fija). Uso: python -m src.generar_datos 1000000"""
 import csv
 import random
 import sys

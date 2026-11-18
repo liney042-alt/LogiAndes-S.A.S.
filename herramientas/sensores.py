@@ -1,34 +1,6 @@
-"""
-sensores.py — Lectura OPCIONAL de magnitudes físicas del sistema.
 
-Física Aplicada al Desarrollo de Software · SENA ADSO · Clase 4
+#sensores.py — Lectura OPCIONAL de magnitudes físicas del sistema.#
 
-Qué hace
---------
-Intenta leer, sin permisos de administrador:
-  * Frecuencia actual del procesador (MHz)        -> psutil o /proc/cpuinfo
-  * Temperatura del paquete/CPU (°C)              -> psutil o /sys/class/thermal
-  * Contador de energía RAPL de Intel (µJ -> J)   -> /sys/class/powercap (solo Linux + Intel)
-
-Principio de diseño: NINGUNA función lanza excepción si el sensor no existe.
-Si una magnitud no está disponible se devuelve None, y el laboratorio
-continúa con las magnitudes que sí se pueden medir (tiempo, memoria, CPU %).
-
-Advertencias físicas importantes
---------------------------------
-* El porcentaje de CPU NO es potencia eléctrica. Es la fracción de tiempo
-  que el proceso ocupó núcleos lógicos durante un intervalo.
-* La temperatura reportada por el sensor es la de un punto del chip, con
-  inercia térmica: cambia segundos después de que cambia la carga.
-* RAPL es un MODELO interno del procesador calibrado por el fabricante,
-  no un vatímetro externo. Mide el paquete del procesador (y a veces DRAM),
-  no el computador completo. En muchos Linux recientes energy_uj solo se
-  puede leer como root (mitigación de seguridad CVE-2020-8694); en ese
-  caso se reporta como no disponible.
-
-Uso rápido:
-    python sensores.py
-"""
 from __future__ import annotations
 
 import glob
@@ -116,7 +88,7 @@ def energia_rapl_j() -> float | None:
 
 
 def rango_rapl_j() -> float | None:
-    """Valor máximo del contador antes de reiniciarse a cero (desbordamiento)."""
+    #Valor máximo del contador antes de reiniciarse a cero (desbordamiento).#
     try:
         return int((_RAPL / "max_energy_range_uj").read_text().strip()) / 1_000_000
     except (OSError, ValueError, PermissionError):
@@ -124,7 +96,7 @@ def rango_rapl_j() -> float | None:
 
 
 def delta_energia_j(inicio: float | None, fin: float | None) -> float | None:
-    """Energía consumida entre dos lecturas RAPL, corrigiendo el desbordamiento."""
+    #Energía consumida entre dos lecturas RAPL, corrigiendo el desbordamiento.#
     if inicio is None or fin is None:
         return None
     delta = fin - inicio
@@ -138,7 +110,7 @@ def delta_energia_j(inicio: float | None, fin: float | None) -> float | None:
 
 # ------------------------------------------------------------------- informe
 def disponibilidad() -> dict[str, bool]:
-    """Qué magnitudes físicas se pueden registrar en este equipo."""
+    #Qué magnitudes físicas se pueden registrar en este equipo.#
     return {
         "frecuencia": frecuencia_mhz() is not None,
         "temperatura": temperatura_c() is not None,

@@ -1,15 +1,12 @@
-"""
-Línea base — Equipo 1: Procesamiento de grandes volúmenes de información.
 
-Situación inicial (así funciona HOY el sistema de la empresa):
-  1. Lee TODO el archivo de ventas en una lista de diccionarios.
-  2. Para CADA región, recorre la lista completa filtrando sus ventas.
-Resultado: total vendido (cantidad · precio) por región.
+#Línea base — Equipo 1: Procesamiento de grandes volúmenes de información.
 
-Interfaz común del laboratorio:
-  preparar(n) -> datos   (NO se mide: genera el archivo si no existe)
-  ejecutar(datos) -> resultado   (SÍ se mide)
-"""
+#Situación inicial (así funciona HOY el sistema de la empresa):
+# 1. Lee TODO el archivo de ventas en una lista de diccionarios.
+#2. Para CADA región, recorre la lista completa filtrando sus ventas.
+#Resultado: total vendido (cantidad · precio) por región.#
+
+
 import csv
 from pathlib import Path
 
