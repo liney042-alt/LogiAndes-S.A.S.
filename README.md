@@ -36,10 +36,12 @@ python -m herramientas.analizar_resultados resultados/resultados.csv
 El arnés valida resultados, aleatoriza orden con semilla 42, calienta funciones y precalienta los CSV antes de medir. La caché caliente no puede garantizarse en todos los sistemas; anotar esta limitación. Las corridas de memoria usan `tracemalloc` por separado de las de tiempo. RAPL y temperatura son opcionales.
 
 ## 7. Integrantes y responsabilidades
-Registrar nombres y la distribución del enunciado para equipo de tres: A coordina protocolo/entorno y parte de R4; B desarrolla la base y pruebas, revisa las alternativas; C desarrolla alternativas y parte de R4 para análisis/gráficos. Todos deben entender los conceptos físicos y el código.
+La asignación nominal y las ramas por integrante están en [docs/ramas_equipo.md](docs/ramas_equipo.md): Jhostyn (A), Steven (B) y Liney (C). Liney lidera la contribución de optimización, análisis y gráficos; todos deben entender los conceptos físicos y el código.
 
 ## 8. Documentación
-[Variables](docs/variables.md) · [Protocolo](docs/protocolo.md) · [Entorno](docs/entorno.md) · [Decisiones](docs/decisiones.md) · [Uso de IA](docs/uso_ia.md) · [Informe](docs/informe.md)
+[Ramas del equipo](docs/ramas_equipo.md) · [Variables](docs/variables.md) · [Protocolo](docs/protocolo.md) · [Entorno](docs/entorno.md) · [Decisiones](docs/decisiones.md) · [Uso de IA](docs/uso_ia.md) · [Informe](docs/informe.md)
 
 ## 9. Resultados y conclusiones
 Pendientes de la ejecución formal. No completar con cifras estimadas; incluir resultados observados, unidades y sus intervalos de confianza.
+
+
