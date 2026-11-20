@@ -26,8 +26,13 @@ def precalentar_archivos(rutas: dict[int, Path]) -> None:
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--rapido", action="store_true")
-    p.add_argument("--salida", default="resultados/resultados.csv")
+    p.add_argument("--salida", default="resultados/corridas/nueva_corrida.csv",
+                   help="CSV nuevo; si ya existe, el programa se detiene para proteger la evidencia")
     a = p.parse_args()
+    salida = Path(a.salida)
+    if salida.exists():
+        p.error(f"El archivo {salida} ya existe; use --salida con una ruta nueva para conservar la evidencia")
+
     tamanos = TAMANOS[:1] if a.rapido else TAMANOS
     reps = 2 if a.rapido else REPETICIONES
 
@@ -43,9 +48,7 @@ def main() -> None:
     for mod in ESTRATEGIAS.values():
         calentar(mod.ejecutar, datos[tamanos[0]], veces=1)
 
-    salida = Path(a.salida)
     salida.parent.mkdir(parents=True, exist_ok=True)
-    salida.unlink(missing_ok=True)
     with Experimento(salida, equipo="Equipo 1") as exp:
         for i, (e, n, r) in enumerate(plan, 1):
             exp.medir(ESTRATEGIAS[e].ejecutar, datos[n], estrategia=e, n=n, repeticion=r)

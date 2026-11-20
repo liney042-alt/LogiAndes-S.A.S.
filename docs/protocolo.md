@@ -21,12 +21,13 @@ Comparar exactitud, tiempo y memoria de A, B y C al totalizar ventas por región
 ## Ejecución y caché
 1. Pruebas de corrección: `python -m unittest discover -s pruebas`.
 2. Humo: `python -m experimentos.ejecutar_experimento --rapido`.
-3. Formal: `python -m experimentos.ejecutar_experimento`.
+3. Formal: `python -m experimentos.ejecutar_experimento --salida resultados/corridas/formal.csv`. Para cada repetición, cambie el nombre del archivo de salida; el arnés se detiene si el destino ya existe.
 4. Antes de las mediciones, el arnés lee cada archivo completo para favorecer una caché caliente. La caché del SO no se puede fijar ni verificar igual en todos los sistemas; por eso los resultados describen principalmente el escenario caliente, y se reportará como limitación. No comparar una corrida fría de una estrategia con corridas calientes de otra.
 
 ## Calidad y registro
-Informar media, desviación estándar, CV e IC95 % por combinación. Si CV > 10 %, investigar procesos concurrentes/actualizaciones y repetir la serie documentando el incidente; no borrar datos sin causa. Reportar valores atípicos con regla de Tukey, sin exclusión automática. Marcar energía, temperatura y memoria según medida/ausencia y sus limitaciones.
+Informar media, desviación estándar, CV e IC95 % por combinación. Si CV > 10 %, investigar procesos concurrentes/actualizaciones y repetir la serie en una ruta distinta, conservando ambas mediciones. Anotar en la tabla de incidentes la causa revisada, condiciones de la repetición y decisión; no borrar datos sin causa. Reportar valores atípicos con regla de Tukey, sin exclusión automática. Marcar energía, temperatura y memoria según medida/ausencia y sus limitaciones.
 
 ## Incidentes
 | Fecha/hora | Incidente | Corridas afectadas | Decisión |
 |---|---|---|---|
+| 2026-11-20 | CV > 10 % persistió al repetir: la segunda serie quedó entre 16.8 % y 42.4 %. Equipo conectado; frecuencia reportada 1300 MHz; temperatura, RAPL y carga global no disponibles/no registradas. Causa no identificada. | `resultados/medicion_formal_local.csv`; `resultados/repeticion_cv_2026-11-20/mediciones_completa.csv` | Conservar ambas series; no declarar reproducibilidad estable y repetir bajo carga controlada antes de recomendar para producción. |

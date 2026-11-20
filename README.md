@@ -28,7 +28,7 @@ La salida de totales por región está guardada en [resultados/evidencia_linea_b
 ¿Cómo cambian el tiempo (s) y el pico de memoria Python (MiB) al variar la estrategia de procesamiento (A, B, C) y el tamaño de entrada (100 000, 300 000 y 1 000 000 filas), manteniendo equipo, datos y condiciones constantes?
 
 ## 4. Hipótesis
-Ver H1–H3 en [docs/hipotesis.md](docs/hipotesis.md). Son predicciones cuantitativas; los resultados medidos y sus límites están en la rama de Liney y en [docs/informe.md](docs/informe.md).
+Ver H1–H3 en [docs/hipotesis.md](docs/hipotesis.md). Son predicciones cuantitativas; los resultados medidos y sus límites están en [docs/informe.md](docs/informe.md).
 
 ## 5. Estrategias
 | Id | Estrategia | Idea principal | Efecto físico esperado |
@@ -44,12 +44,12 @@ A igual potencia media, una reducción de tiempo podría reducir `E = P̄·t`; l
 python -m herramientas.diagnostico_entorno
 python -m src.linea_base
 python -m unittest discover -s pruebas
-python -m experimentos.ejecutar_experimento --rapido
-python -m experimentos.ejecutar_experimento
-python -m herramientas.analizar_resultados resultados/resultados.csv
+python -m experimentos.ejecutar_experimento --rapido --salida resultados/corridas/prueba_rapida.csv
+python -m experimentos.ejecutar_experimento --salida resultados/corridas/formal.csv
+python -m herramientas.analizar_resultados resultados/corridas/formal.csv
 ```
 
-El arnés valida resultados, aleatoriza orden con semilla 42, calienta funciones y precalienta los CSV antes de medir. La caché caliente no puede garantizarse en todos los sistemas; anotar esta limitación. Las corridas de memoria usan `tracemalloc` por separado de las de tiempo. RAPL y temperatura son opcionales.
+El arnés valida resultados, aleatoriza orden con semilla 42, calienta funciones y precalienta los CSV antes de medir. Cada corrida debe usar una ruta nueva; si el archivo existe, el programa se detiene para proteger la evidencia previa. Para repetir, cambie el nombre de salida y analice ese CSV. La caché caliente no puede garantizarse en todos los sistemas; anotar esta limitación. Las corridas de memoria usan `tracemalloc` por separado de las de tiempo. RAPL y temperatura son opcionales.
 
 ## 7. Integrantes y responsabilidades
 La asignación nominal y las ramas por integrante están en [docs/ramas_equipo.md](docs/ramas_equipo.md): Jhostyn (A), Steven (B) y Liney (C). Liney lidera la contribución de optimización, análisis y gráficos; todos deben entender los conceptos físicos y el código.
@@ -58,4 +58,4 @@ La asignación nominal y las ramas por integrante están en [docs/ramas_equipo.m
 [Ramas del equipo](docs/ramas_equipo.md) · [Variables](docs/variables.md) · [Protocolo](docs/protocolo.md) · [Entorno](docs/entorno.md) · [Decisiones](docs/decisiones.md) · [Uso de IA](docs/uso_ia.md) · [Informe](docs/informe.md)
 
 ## 9. Resultados y conclusiones
-Los resultados de dos series están en `resultados/` de las ramas A/C. El CV combinado superó 10 % en todas las combinaciones; revisar el informe antes de extrapolar las cifras.
+Los resultados y sus límites están consolidados en [docs/informe.md](docs/informe.md) y en los CSV versionados dentro de `resultados/`. El CV de la corrida formal superó 10 % en todas las combinaciones; la repetición del 20 de noviembre también superó el umbral; ver `resultados/repeticion_cv_2026-11-20/` y el informe antes de extrapolar las cifras.

@@ -1,0 +1,19 @@
+{
+  "fecha": "2026-11-20T16:07:29",
+  "sistema": "Windows 11",
+  "maquina": "AMD64",
+  "procesador": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+  "nucleos_logicos": 12,
+  "python": "3.14.0",
+  "implementacion": "CPython",
+  "psutil": "7.2.2",
+  "sensores_disponibles": {
+    "frecuencia": true,
+    "temperatura": false,
+    "energia_rapl": false,
+    "psutil": true
+  },
+  "memoria_total_gib": 15.65,
+  "nucleos_fisicos": 10,
+  "conectado_a_corriente": true
+}
