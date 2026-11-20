@@ -15,7 +15,7 @@ Las hipótesis H1–H3 se conservaron según el protocolo. A n = 1 000 000, las 
 A materializa una lista de diccionarios y vuelve a recorrerla por región; B suma una pasada con `DictReader`; C suma una pasada con `csv.reader` e índices de columnas. Se usó la misma semilla/datos y un orden aleatorio con semilla 42. El protocolo precalentó los archivos, por lo que los tiempos representan principalmente acceso con caché caliente. La corrida formal contiene diez tiempos por combinación y una corrida de memoria separada por combinación.
 
 ## 4. Resultados
-Las cifras de esta sección se calcularon desde `resultados/medicion_formal_local.csv`; el resumen correspondiente está en `resultados/resumen.csv`. Las dos series anteriores se conservan por separado en `resultados/resultados.csv`, `resultados/repeticion_2.csv` y `resultados/consolidado.csv`.
+Las cifras de esta sección se calcularon desde `resultados/medicion_formal_local.csv`; el resumen correspondiente está en `resultados/resumen.csv`. Las dos series anteriores se conservan por separado en `resultados/resultados.csv`, `resultados/repeticion_2.csv` y `resultados/consolidado.csv`. La repetición formal del 20 de noviembre se conserva en `resultados/repeticion_cv_2026-11-20/mediciones_completa.csv`, con su propio resumen, entorno y gráficos.
 
 | n | Estrategia | Media (s) | SD (s) | CV (%) | IC95 % (s) |
 |---:|---|---:|---:|---:|---:|
@@ -29,6 +29,17 @@ Las cifras de esta sección se calcularon desde `resultados/medicion_formal_loca
 | 1 000 000 | B | 2.4070 | 0.5307 | 22.0 | [2.0200, 2.7940] |
 | 1 000 000 | C | 1.0400 | 0.1201 | 11.5 | [0.9524, 1.1276] |
 
+### Repetición formal del 20 de noviembre
+Se repitieron diez mediciones por combinación en un archivo independiente. Las tres estrategias volvieron a producir los mismos totales que la línea base (validación automática antes de medir). El CV siguió por encima del 10 % en las nueve combinaciones: varió entre 16.8 % y 42.4 %. Para un millón de filas:
+
+| Estrategia | Media (s) | SD (s) | CV (%) | IC95 % (s) |
+|---|---:|---:|---:|---:|
+| A | 3.4521 | 0.7641 | 22.1 | [2.8949, 4.0093] |
+| B | 2.4128 | 0.5386 | 22.3 | [2.0200, 2.8055] |
+| C | 1.0854 | 0.2827 | 26.0 | [0.8793, 1.2916] |
+
+La repetición se hizo en Windows 11 con CPython 3.14.0, en el mismo equipo y conectado a corriente. El sensor reportó 1300 MHz; temperatura y energía no estuvieron disponibles, y no se registró la carga global del sistema. La causa de la variabilidad no pudo determinarse. Los datos completos y el resumen están en `resultados/repeticion_cv_2026-11-20/`.
+
 En la corrida separada de memoria para un millón de filas: A = 529.310 MiB, B = 0.182 MiB y C = 0.176 MiB (`tracemalloc`; una medición por estrategia). `tracemalloc` mide asignaciones de Python, no el RSS total. No se obtuvieron valores válidos de energía RAPL.
 
 ![Tiempo de ejecución por tamaño](../resultados/tiempo_vs_n.png)
@@ -36,7 +47,7 @@ En la corrida separada de memoria para un millón de filas: A = 529.310 MiB, B =
 ![Comparación de estrategias para n mayor](../resultados/estrategias_n_mayor.png)
 
 ## 5. Discusión
-Las estimaciones respaldan la dirección prevista: menos recorridos y menos objetos temporales coincidieron con menor tiempo y memoria trazada. En el millón de filas, C fue aproximadamente 3.33 veces más rápida que A. Sin embargo, todas las combinaciones tuvieron CV > 10 %. El CV no prueba un defecto del código, pero señala que la carga del sistema, la frecuencia u otras condiciones no registradas pudieron afectar las mediciones. Los IC95 % son descriptivos y pueden subestimar la incertidumbre si hubo deriva durante la sesión. La corrida se hizo en escenario principalmente de caché caliente.
+Las dos series formales muestran la misma dirección: C tuvo la menor media de tiempo, y los totales coincidieron con la línea base. La repetición no resolvió la variabilidad: todas las combinaciones quedaron con CV > 10 % (16.8–42.4 % en la repetición). Se registraron 1300 MHz y equipo conectado, pero no temperatura, energía ni carga global; no se identificó la causa. Los IC95 % son descriptivos y pueden subestimar la incertidumbre si hubo deriva durante la sesión. Ambas series se hicieron en escenario principalmente de caché caliente.
 
 ## 6. Propuesta de mejora para la empresa
 Probar C como prototipo para el escenario de caché caliente, verificando totales contra la línea base. Antes de producción, repetir en condiciones controladas y registrar la carga/frecuencia del sistema; realizar también una evaluación de lectura fría separada. No extrapolar el ahorro de memoria a la memoria total ni afirmar ahorro de energía con estos datos.
