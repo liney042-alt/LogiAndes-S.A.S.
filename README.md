@@ -1,8 +1,5 @@
 # Equipo 1 — Procesamiento de grandes volúmenes de información
 
-> Proyecto: *Laboratorio colaborativo de rendimiento y eficiencia computacional desde la física aplicada*
-> Física Aplicada al Desarrollo de Software · SENA · ADSO · 7.º trimestre
-
 ## 1. Problema empresarial
 **Empresa (caso simulado):** LogiAndes S.A.S., operador logístico con ventas en seis regiones.
 
